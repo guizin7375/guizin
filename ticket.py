@@ -479,7 +479,7 @@ async def enviar_log_fechamento(interaction, closed_by, conclusao):
 
     mensagens_html = []
 
-    async for msg in channel.history(limit=300, oldest_first=True):
+    async for msg in channel.history(limit=150,first=True):
         conteudo = html.escape(msg.content or "[Sem texto]")
         data_msg = msg.created_at.astimezone(br_tz).strftime("%d/%m/%Y %H:%M")
 

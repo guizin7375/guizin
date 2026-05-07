@@ -1,44 +1,34 @@
 import discord
-from datetime import datetime
-
-# CONFIG
 
 WELCOME_CHANNEL_ID = 1442689209998639125
 VERIFICACAO_CHANNEL_ID = 1484273749653061692
 TICKET_CHANNEL_ID = 1444033815453503601
 TERMOS_CHANNEL_ID = 1442689136791257239
 
-
 BANNER_WELCOME = "https://imgur.com/Ap0kBjJ.png"
 
 
-def agora():
-    return datetime.now().strftime("%d/%m/%Y %H:%M")
+def criar_botao(label, emoji, guild_id, channel_id):
+    return discord.ui.Button(
+        label=label,
+        emoji=emoji,
+        style=discord.ButtonStyle.link,
+        url=f"https://discord.com/channels/{guild_id}/{channel_id}"
+    )
 
 
 def botoes_dm(guild_id: int):
     view = discord.ui.View(timeout=None)
+    view.add_item(criar_botao("Verifique-se", "<:checkk:1491475061457158365>", guild_id, VERIFICACAO_CHANNEL_ID))
+    view.add_item(criar_botao("Abra um ticket", "📩", guild_id, TICKET_CHANNEL_ID))
+    view.add_item(criar_botao("Regras", "<:copiaecola:1500680231781011606>", guild_id, TERMOS_CHANNEL_ID))
+    return view
 
-    view.add_item(discord.ui.Button(
-        label="Verifique-se",
-        emoji="<:checkk:1491475061457158365>",
-        style=discord.ButtonStyle.link,
-        url=f"https://discord.com/channels/{guild_id}/{VERIFICACAO_CHANNEL_ID}"
-    ))
 
-    view.add_item(discord.ui.Button(
-        label="Abra um ticket",
-        emoji="📩",
-        style=discord.ButtonStyle.link,
-        url=f"https://discord.com/channels/{guild_id}/{TICKET_CHANNEL_ID}"
-    ))
-    view.add_item(discord.ui.Button(
-        label="Regras",
-        emoji="<:copiaecola:1500680231781011606>",
-        style=discord.ButtonStyle.link,
-        url=f"https://discord.com/channels/{guild_id}/{TERMOS_CHANNEL_ID}"
-    ))
-
+def botoes_welcome(guild_id: int):
+    view = discord.ui.View(timeout=None)
+    view.add_item(criar_botao("Verifique-se", "<:checkk:1491475061457158365>", guild_id, VERIFICACAO_CHANNEL_ID))
+    view.add_item(criar_botao("Abrir ticket", "📩", guild_id, TICKET_CHANNEL_ID))
     return view
 
 
@@ -96,7 +86,7 @@ def setup_welcome(bot):
         except discord.Forbidden:
             print(f"❌ DM fechada: {member}")
 
-        # CANAL WELCOME
+       
         channel = guild.get_channel(WELCOME_CHANNEL_ID)
         if not channel:
             return

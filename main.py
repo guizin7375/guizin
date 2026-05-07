@@ -1,12 +1,15 @@
 import discord
 from discord.ext import commands
 import asyncio
+import os
+
+from dotenv import load_dotenv
 
 from welcome import setup_welcome
 from whitelist import setup_whitelist
 from ticket import setup_ticket
 
-import os
+load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
 
